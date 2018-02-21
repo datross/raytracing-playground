@@ -1,0 +1,6 @@
+{
+    "loadEagerly": [
+        "../vendor/three/three.js",
+        "SceneUtils.js"
+    ]
+}

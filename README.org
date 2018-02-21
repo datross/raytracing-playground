@@ -1,0 +1,73 @@
+* Projet personnel
+
+Sujet :
+/Programmer un playground web pour appréhender le lancer de rayon./
+
+Ressources à regarder :
+/Vidéo de la blender conf avec le plugin pour voir les rayons de cycles./
+
+** Généralités
+*** Quelle utilisation ?
+
+ Découvrir la méthode de lancer de rayon et pouvoir expérimenter facilement avec une interface web.
+ A priori l'utilisateur n'a besoin de rentrer aucune ligne de code.
+ On doit pouvoir :
+
+ - visualiser facilement les méthodes géométriques qui sous-tendent le raycasting, et visualier le trajet des rayons.
+ - modifier la plupart des paramètres pour comprendre leurs effets.
+ - comprendre en quoi consiste les shaders (éventuellement un mini-éditeur nodal ?).
+
+*** Cible
+
+ Étudiants (soit en synthèse d'image, soit en animation qui souhaite explorer comment marche les moteurs de rendu).
+
+*** Bagage requis pour l'utilisation
+
+ - Être un peu familier avec la géométrie dans l'espace.
+ - Aucune connaissance en programmation requise (le playground ne présente pas l'aspect techniques des implémentations des méthodes).
+ - Notions de bases d'optique.
+
+*** Structure générale du playground
+
+ Interface unifiée pour toutes les parties (pas de chronologie).
+ - Zone principale qui est un viewport 3D avec la caméra, des mesh, et des lampes. Elle permet de visualiser les rayons (quelques uns), et éventuellement la structure spatiale de la structure d'accélaration pour calculer les intersections (exception au fait qu'on évite les parties techniques d'implémentation.
+ - Zone secondaire pour éditer les paramètres (choisir entre différents algo, éditer les shaders, les constantes, etc.).
+ - Zone secondaire pour la doc et éventuellement une présentation des notions utilisées dans le viewport.
+ - Aperçu du rendu de la vue caméra.
+
+** Contenu présenté
+
+*** Composition de la scène 3D
+
+/Caméra, objets (principalement primitives et objets simples), lumières (unidirectionnelle, omnidirectionnelle, surfacique), ciel./
+
+**** Caméra
+
+- Position, orientation, FOV.
+- Capteur (trouver moyen de visualiser le grille de pixels avec zoom pour voir la distribution des samples sur un pixel).
+
+**** Objets
+
+- Position, orientation, scale.
+- Voir les faces avec normale (trouver moyen pour rendre compte du smooth).
+
+**** Lumières
+
+- Position, orientation, luminance, couleur.
+- Visualiser la direction des rayons émis (genre champ de vecteurs).
+
+*** Trajet des rayons
+
+/Rayons, intersection avec les surfaces, réflections, séparation à l'intersection, origine et direction (samples avec l'anti-aliasing, depth of field, vue perspective/orthographique)./ 
+
+- Vue "zoomée" de l'intersection avec la surface, la rayon incident et les rayons réfléchis/transmis.
+- Vue globale du trajet complet des rayons.
+- Origine des rayons avec la distribution sur le capteur et la direction (pour le depth of field).
+
+*** Lois physiques
+
+/Atténuation de l'intensité lumineuse, intéraction lumière/matière, intégration de l'équation du rendu./
+
+- Vue de l'intensité lumineuse le long d'un trajet de rayons.
+- Dans la vue d'intersection rayon/surface, visualiser la quantité de lumière réfléchie/absorbée/transmise.
+- Faire vraiment comprendre (graphiquement a priori) l'équation du rendu.
