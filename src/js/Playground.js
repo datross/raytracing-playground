@@ -19,6 +19,9 @@ var PLAYGROUND = {
 
         // parent of every other THREE objects.
         this.root = new THREE.Object3D();
+        // the name is important to know this object is the root
+        // of a SceneObject
+        this.root.name = "playground-root";
         this.root.add(this.mesh);
         this.root.add(this.wire);
     },
@@ -41,42 +44,73 @@ var PLAYGROUND = {
             // THREE JS Group, in order to easily manipulate every objects at once
             group: new THREE.Group(),
 
-            // center of mass
-            center: new THREE.Vector3(),
+            contains: function(object) {
+                return this.objects.indexOf(object) != -1;
+            },
 
             add: function(object) {
                 // check if it's already in selection
-                if (this.objects.indexOf(object) == -1) {
+                if (!this.contains(object)) {
                     this.objects.push(object);
-                    this.group.add(object.root);
                     THREE.SceneUtils.attach(object.root, this.scene, this.group);
                 }
                 // update everything
-                this.update();
+                this.updateDisplay();
+                console.log(this.group.position);
             },
 
             remove: function(object) {
                 // see if it's in the selection
-                let index = this.objects.indexOf(object);
-                if (index != -1) {
+                if(this.contains(object)) {
+                    let index = this.objects.indexOf(object);
                     this.objects.splice(index);
                     THREE.SceneUtils.detach(object.root, this.group, this.scene);
                 }
                 // update everything
-                this.update();
+                this.updateDisplay();
+            },
+
+            // if object is in the selection, then it is removed,
+            // otherwise it is added
+            toggle: function(object) {
+                if(!this.contains(object)) {
+                    this.add(object);
+                } else {
+                    this.remove(object);
+                }
             },
 
             clear: function() {
                 let n = this.objects.length;
                 for (let i = 0; i < n; i++) {
                     this.remove(this.objects[0]);
+                    // console.log(this.group.children.length);
                 }
             },
 
+            empty: function() {
+                return this.objects.length == 0;
+            },
+
             // update center and visibility
-            update: function() {
-                this.center = Object3DCenter(this.group);
-                this.group.visible = this.objects.length > 0 ? true : false;
+            updateDisplay: function() {
+                this.group.visible = this.empty() ? false : true;
+
+                // update group position
+
+                // // store group center
+                let center = Object3DCenter(this.group);
+                // // detach everything
+                // for(let i = 0; i < this.objects.length; i++) {
+                //     THREE.SceneUtils.detach(this.objects[i].root, this.group, this.scene);
+                // }
+                // // change position
+                this.group.position = center;
+                console.log(this.group.position);
+                // // reattach everything
+                // for(let i = 0; i < this.objects.length; i++) {
+                //     THREE.SceneUtils.attach(this.objects[i].root, this.group, this.scene);
+                // }
             }
         };
 
@@ -139,18 +173,23 @@ var PLAYGROUND = {
             // intersection are sorted by distance so we only need a simple loop and take the first SceneObject
             for (let i = 0; i < intersects.length; i++) {
                 let object = intersects[i].object;
-                // search for the object in the SceneObject of the scene
-                let sceneObject = this.objects.find(function(element) {
-                    return element.root == object;
-                });
-                // if it's a SceneObject, this the one we are looking for
-                if (sceneObject !== undefined) {
-                    return sceneObject;
+                let root = findParent(object, "playground-root");
+                // if it is a SceneObject
+                if(root !== undefined) {
+                    // search for the object in the SceneObject of the scene
+                    let sceneObject = this.objects.find(function(element) {
+                        return element.root == root;
+                    });
+                    // normally we can find it,
+                    // but we never know...
+                    if (sceneObject !== undefined) {
+                        return sceneObject;
+                    }
                 }
             }
             // here no object has been found, so we just return no object
             return undefined;
-        }
+        };
     },
 
     Viewport: function(scene) {
@@ -195,10 +234,19 @@ var PLAYGROUND = {
         copyPass.renderToScreen = true;
 
         // Selection transform widget
-        // TODO move widget in viewport
         this.selectionTransformWidget = new THREE.TransformControls(this.camera, this.renderer.domElement);
-        this.selectionTransformWidget.attach(this.scene.selection.group);
         this.scene.scene.add(this.selectionTransformWidget);
+
+        this.updateTransformWidget = function() {
+            this.selectionTransformWidget.visible = this.scene.selection.group.visible;
+            // console.log(this.scene.selection.group.position);
+            // console.log(this.scene.selection.objects);
+            if(this.scene.selection.empty()) {
+                this.selectionTransformWidget.detach();
+            } else {
+                this.selectionTransformWidget.attach(this.scene.selection.group);
+            }
+        };
 
 
         ///////////////////////
@@ -215,6 +263,7 @@ var PLAYGROUND = {
         this.resize = function(width, height) {
             this.width = width;
             this.height = height;
+;
 
             this.camera.aspect = this.width / this.height;
             this.camera.updateProjectionMatrix(); // TODO check if needed
@@ -240,21 +289,32 @@ var PLAYGROUND = {
 
         // handles user click and returns either null or the selected object
         this.selectSceneObject = function(clickEvent) {
-            let mouse = new THREE.Vector2(-1 + 2 * clickEvent.clientX / this.width,
-                                      -1 + 2 * clickEvent.clientY / this.height);
+            let mouse = new THREE.Vector2(-1 + 2 * clickEvent.clientX / this.width, 1 - 2 * clickEvent.clientY / this.height);
             this.raycaster.setFromCamera(mouse, this.camera);
             let sceneObject = this.scene.raycastSceneObject(this.raycaster.ray.origin,
-                                                            this.raycaster.ray.direction);
+                this.raycaster.ray.direction);
             // is there is a returned sceneObject
-            if(sceneObject !== undefined) {
+            if (sceneObject !== undefined) {
                 // TODO modify this
+                // console.log(sceneObject);
+                // if(clickEvent.shiftKey) {
+                //     this.scene.selection.toggle(sceneObject);
+                // } else {
+                    this.scene.selection.clear();
+                    this.scene.selection.add(sceneObject);
+                console.log(this.scene.selection.group.position);
+                // }
+            } else {
+                // console.log("No object.");
+                // console.log(this.scene.selection.group.children.length);
                 this.scene.selection.clear();
-                this.scene.selection.add(sceneObject);
+                // console.log(this.scene.selection.group.children.length);
             }
         };
 
         this.callbackClick = function(clickEvent) {
             this.selectSceneObject(clickEvent);
+            this.updateTransformWidget();
         };
     }
 };
@@ -267,16 +327,17 @@ window.onload = function() {
         playgroundViewport.resize(window.innerWidth, window.innerHeight);
     };
 
-    resizePlaygroundViewport();
     playgroundViewport.attachToDOM(document.body);
+    resizePlaygroundViewport();
     playgroundViewport.animate();
 
     window.addEventListener('resize', resizePlaygroundViewport, false);
-    window.addEventListener('click', playgroundViewport.callbackClick.bind(playgroundViewport), false);
-
+    window.addEventListener('mousedown', playgroundViewport.callbackClick.bind(playgroundViewport), false);
 
     // fill scene with a cube
     let cube = new PLAYGROUND.SceneObject(new THREE.BoxGeometry(1, 1, 1));
+    let cube2 = new PLAYGROUND.SceneObject(new THREE.BoxGeometry(1, 1, 1));
+    cube2.root.position.x = 1;
     playgroundScene.add(cube);
-    playgroundScene.selection.add(cube);
+    playgroundScene.add(cube2);
 };
