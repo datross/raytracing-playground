@@ -12,7 +12,7 @@ var PLAYGROUND = {
         });
         this.wireMaterial = new THREE.LineBasicMaterial({
             color: wireColor ? wireColor : 0x000000,
-            linewidth: 1
+            linewidth: 1.5
         });
         this.mesh = new THREE.Mesh(geometry, this.solidMaterial);
         this.wire = new THREE.LineSegments(new THREE.EdgesGeometry(geometry), this.wireMaterial);
@@ -56,7 +56,6 @@ var PLAYGROUND = {
                 }
                 // update everything
                 this.updateDisplay();
-                console.log(this.group.position);
             },
 
             remove: function(object) {
@@ -98,19 +97,18 @@ var PLAYGROUND = {
 
                 // update group position
 
-                // // store group center
+                // store group center
                 let center = Object3DCenter(this.group);
-                // // detach everything
-                // for(let i = 0; i < this.objects.length; i++) {
-                //     THREE.SceneUtils.detach(this.objects[i].root, this.group, this.scene);
-                // }
-                // // change position
-                this.group.position = center;
-                console.log(this.group.position);
-                // // reattach everything
-                // for(let i = 0; i < this.objects.length; i++) {
-                //     THREE.SceneUtils.attach(this.objects[i].root, this.group, this.scene);
-                // }
+                // detach everything
+                for(let i = 0; i < this.objects.length; i++) {
+                    THREE.SceneUtils.detach(this.objects[i].root, this.group, this.scene);
+                }
+                // change position
+                this.group.position.copy(center);
+                // reattach everything
+                for(let i = 0; i < this.objects.length; i++) {
+                    THREE.SceneUtils.attach(this.objects[i].root, this.group, this.scene);
+                }
             }
         };
 
@@ -122,7 +120,7 @@ var PLAYGROUND = {
         this.scene.add(this.selection.group);
 
         // update selection to init visibility of transform widget
-        this.selection.update();
+        this.selection.updateDisplay();
 
         // Objects contained in the scene (raytracing scene)
         this.objects = [];
@@ -282,7 +280,7 @@ var PLAYGROUND = {
 
             this.orbitControls.update();
             this.selectionTransformWidget.update();
-            this.scene.update();
+            // this.scene.update();
             this.updateOutlinePass();
             this.composer.render();
         };

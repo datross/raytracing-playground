@@ -1,0 +1,167 @@
+
+src/js/Playground.js,841
+var renderer, composer, scene;renderer1,0
+var PLAYGROUND = {SceneObject4,94
+    },Scene19,855
+        this.generalProperties = {backgroundColor26,997
+        this.selection = {scene50,1909
+            },clear81,3022
+            },update88,3228
+        this.attachToDOM = function(domElement) {attachToDOM138,5183
+        this.resize = function(width, height) {resize144,5423
+        this.updateOutlinePass = function() {updateOutlinePass156,5952
+        this.animate = function() {animate161,6117
+        this.add = function(object) {add171,6394
+        this.remove = function(object) {remove177,6564
+        this.clear = function() {clear190,7030
+        this.getClickedObject = function(mouse) {getClickedObject196,7220
+    var playgroundScene = new PLAYGROUND.Scene();let220,8346
+};window.onload217,8313
+
+src/js/PlaygroundUtils.js,53
+function Object3DCenter(object) {Object3DCenter1,0
+
+src/vendor/three/OrbitControls.js,3300
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };LEFT73,2474
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };UP73,2474
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };RIGHT73,2474
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };BOTTOM73,2474
+	this.mouseButtons = { ORBIT: THREE.MOUSE.LEFT, ZOOM: THREE.MOUSE.MIDDLE, PAN: THREE.MOUSE.RIGHT };ORBIT76,2551
+	this.getPolarAngle = function () {getPolarAngle87,2812
+	this.getAzimuthalAngle = function () {getAzimuthalAngle93,2879
+	this.saveState = function () {saveState99,2952
+	this.reset = function () {reset107,3113
+	this.update = function () {update123,3480
+/**THREE.OrbitControls0,0
+	this.dispose = function () {dispose219,5907
+	var changeEvent = { type: 'change' };type244,6711
+	var startEvent = { type: 'start' };type245,6750
+	var endEvent = { type: 'end' };type246,6787
+	var STATE = { NONE: - 1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DOLLY: 4, TOUCH_PAN: 5 };NONE248,6821
+	var state = STATE.NONE;state250,6926
+	var EPS = 0.000001;EPS252,6952
+	var scale = 1;scale258,7106
+	var zoomChanged = false;zoomChanged260,7160
+	function getAutoRotationAngle() {getAutoRotationAngle274,7532
+	function getZoomScale() {getZoomScale280,7629
+	function rotateLeft( angle ) {rotateLeft286,7706
+	function rotateUp( angle ) {rotateUp292,7777
+	var panLeft = function () {panLeft298,7844
+	var panUp = function () {panUp313,8111
+	var pan = function () {pan329,8437
+	function dollyIn( dollyScale ) {dollyIn369,9780
+	function dollyOut( dollyScale ) {dollyOut390,10270
+	function handleMouseDownRotate( event ) {handleMouseDownRotate415,10816
+	function handleMouseDownDolly( event ) {handleMouseDownDolly423,10961
+	function handleMouseDownPan( event ) {handleMouseDownPan431,11103
+	function handleMouseMoveRotate( event ) {handleMouseMoveRotate439,11239
+	function handleMouseMoveDolly( event ) {handleMouseMoveDolly460,11895
+	function handleMouseMovePan( event ) {handleMouseMovePan484,12269
+	function handleMouseUp( event ) {handleMouseUp500,12528
+	function handleMouseWheel( event ) {handleMouseWheel506,12606
+	function handleKeyDown( event ) {handleKeyDown524,12842
+	function handleTouchStartRotate( event ) {handleTouchStartRotate554,13319
+	function handleTouchStartDolly( event ) {handleTouchStartDolly562,13488
+	function handleTouchStartPan( event ) {handleTouchStartPan575,13794
+	function handleTouchMoveRotate( event ) {handleTouchMoveRotate583,13954
+	function handleTouchMoveDolly( event ) {handleTouchMoveDolly604,14632
+	function handleTouchMovePan( event ) {handleTouchMovePan633,15168
+	function handleTouchEnd( event ) {handleTouchEnd649,15449
+	function onMouseDown( event ) {onMouseDown659,15597
+	function onMouseMove( event ) {onMouseMove710,16406
+	function onMouseUp( event ) {onMouseUp746,16890
+	function onMouseWheel( event ) {onMouseWheel761,17185
+	function onKeyDown( event ) {onKeyDown775,17541
+	function onTouchStart( event ) {onTouchStart783,17705
+	function onTouchMove( event ) {onTouchMove833,18450
+	function onTouchEnd( event ) {onTouchEnd877,19279
+	function onContextMenu( event ) {onContextMenu889,19445
+THREE.OrbitControls.prototype.constructor = THREE.OrbitControls;constructor917,20180
+
+src/vendor/three/CopyShader.js,35
+THREE.CopyShader = {uniforms7,96
+
+src/vendor/three/FXAAShader.js,37
+THREE.FXAAShader = {uniforms11,283
+
+src/vendor/three/EffectComposer.js,92
+		var parameters = {minFilter11,185
+/**THREE.EffectComposer0,0
+} );THREE.Pass160,3064
+
+src/vendor/three/three.js,0
+
+src/vendor/three/SceneUtils.js,88
+THREE.SceneUtils = {createMultiMaterialObject5,57
+	},detach19,318
+	},attach27,461
+
+src/vendor/three/TransformControls.js,3704
+		this.highlight = function( highlighted ) {highlight23,395
+	var GizmoMaterial = function ( parameters ) {GizmoMaterial9,88
+	GizmoMaterial.prototype.constructor = GizmoMaterial;constructor42,707
+		this.highlight = function( highlighted ) {highlight59,1065
+	var GizmoLineMaterial = function ( parameters ) {GizmoLineMaterial45,763
+	GizmoLineMaterial.prototype.constructor = GizmoLineMaterial;constructor78,1381
+		this.init = function () {init86,1569
+			var planes = {XY103,2023
+			var setupGizmos = function( gizmoMap, parent ) {setupGizmos125,2601
+		this.highlight = function ( axis ) {highlight173,3648
+	var pickerMaterial = new GizmoMaterial( { visible: false, transparent: false } );THREE.TransformGizmo81,1445
+	THREE.TransformGizmo.prototype.constructor = THREE.TransformGizmo;constructor198,4029
+	THREE.TransformGizmo.prototype.update = function ( rotation, eye ) {update200,4098
+		this.handleGizmos = {X242,5454
+		this.pickerGizmos = {X277,6828
+		this.setActivePlane = function ( axis, eye ) {setActivePlane309,7796
+	};THREE.TransformGizmoTranslate220,4656
+	THREE.TransformGizmoTranslate.prototype.constructor = THREE.TransformGizmoTranslate;constructor353,8882
+		var CircleGeometry = function ( radius, facing, arc ) {CircleGeometry359,9052
+		this.handleGizmos = {X378,9744
+		this.pickerGizmos = {X402,10381
+		this.setActivePlane = function ( axis ) {setActivePlane426,11035
+		this.update = function ( rotation, eye2 ) {update438,11344
+		this.update = function ( rotation, eye2 ) {THREE.TransformGizmo438,11344
+			THREE.TransformGizmo.prototype.update.apply( this, arguments );update440,11391
+	THREE.TransformGizmoTranslate.prototype.constructor = THREE.TransformGizmoTranslate;THREE.TransformGizmoRotate353,8882
+	THREE.TransformGizmoRotate.prototype.constructor = THREE.TransformGizmoRotate;constructor496,13033
+		this.handleGizmos = {X518,13891
+		this.pickerGizmos = {X541,14717
+		this.setActivePlane = function ( axis, eye ) {setActivePlane561,15292
+	THREE.TransformGizmoRotate.prototype.constructor = THREE.TransformGizmoRotate;THREE.TransformGizmoScale496,13033
+	THREE.TransformGizmoScale.prototype.constructor = THREE.TransformGizmoScale;constructor596,16176
+		var _gizmo = {translate619,16762
+		var changeEvent = { type: "change" };type635,17070
+		var mouseDownEvent = { type: "mouseDown" };type636,17110
+		var mouseUpEvent = { type: "mouseUp", mode: _mode };type637,17156
+		var mouseUpEvent = { type: "mouseUp", mode: _mode };mode637,17156
+		var objectChangeEvent = { type: "objectChange" };type638,17211
+		this.dispose = function () {dispose694,19253
+		this.attach = function ( object ) {attach713,20002
+		this.detach = function () {detach721,20115
+		this.getMode = function () {getMode729,20227
+		this.setMode = function ( mode ) {setMode735,20283
+		this.setTranslationSnap = function ( translationSnap ) {setTranslationSnap748,20546
+		this.setRotationSnap = function ( rotationSnap ) {setRotationSnap754,20657
+		this.setSize = function ( size ) {setSize760,20756
+		this.setSpace = function ( space ) {setSpace768,20880
+		this.update = function () {update776,21008
+		function onPointerHover( event ) {onPointerHover816,22096
+		function onPointerDown( event ) {onPointerDown844,22659
+		function onPointerMove( event ) {onPointerMove894,23978
+		function onPointerUp( event ) {onPointerUp1099,31967
+	THREE.TransformGizmoScale.prototype.constructor = THREE.TransformGizmoScale;THREE.TransformControls596,16176
+		function intersectObjects( pointer, objects ) {intersectObjects1130,32512
+	THREE.TransformControls.prototype.constructor = THREE.TransformControls;constructor1147,33044
+
+src/vendor/three/ShaderPass.js,25
+/**THREE.ShaderPass0,0
+
+src/vendor/three/OutlinePass.js,226
+	var pars = { minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, format: THREE.RGBAFormat };minFilter23,703
+	function replaceDepthToViewZ( string, camera ) {replaceDepthToViewZ115,4927
+/**THREE.OutlinePass0,0
+
+src/vendor/three/RenderPass.js,25
+/**THREE.RenderPass0,0
+
+src/playground.html,0
